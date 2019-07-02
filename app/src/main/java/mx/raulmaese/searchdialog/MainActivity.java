@@ -4,12 +4,16 @@ import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,17 +28,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Dialog dialog = new Dialog(this);
+        final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.search_dialog);
         dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.MATCH_PARENT);
 
-        List<String> stationsList =  Arrays.asList(getResources().getStringArray(R.array.stations));
+        final List<String> stationsList =  Arrays.asList(getResources().getStringArray(R.array.stations));
 
         listView = dialog.findViewById(R.id.lv_stations);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,android.R.id.text1,  stationsList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                stationsList);
 
         listView.setAdapter(arrayAdapter);
 
@@ -57,7 +65,30 @@ public class MainActivity extends AppCompatActivity {
         });
         listView.setTextFilterEnabled(false);
 
+        Button btn_ok = dialog.findViewById(R.id.btn_ok);
+        Button btn_cancelar = dialog.findViewById(R.id.btn_cancel);
 
+        btn_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, stationsList.get(position).toString(), Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        });
+
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
     }
 
