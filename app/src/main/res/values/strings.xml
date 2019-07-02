@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SearchDialog</string>
+    <string name="confirm_city">We are sorry your city has not been set up for ConnectMe at this time.
+        Do you still want to continue with the station code you entered?</string>
 </resources>
