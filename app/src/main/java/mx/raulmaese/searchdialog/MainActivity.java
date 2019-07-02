@@ -41,10 +41,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         SearchView sch_station = dialog.findViewById(R.id.sch_station);
         sch_station.setIconifiedByDefault(false);
-
-        sch_station.setIconifiedByDefault(false);
         sch_station.setOnQueryTextListener(this);
         sch_station.setSubmitButtonEnabled(true);
+        sch_station.setSuggestionsAdapter(null);
 
         listView.setTextFilterEnabled(true);
     }
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String newText) {
         if (TextUtils.isEmpty(newText)) {
-            listView.clearTextFilter();
+            listView.setFilterText("");
         } else {
             listView.setFilterText(newText);
         }
