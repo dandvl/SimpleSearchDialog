@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,11 +30,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.search_dialog);
         dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        List<String> locationList =  Arrays.asList(getResources().getStringArray(R.array.stations));
+        List<String> stationsList =  Arrays.asList(getResources().getStringArray(R.array.stations));
 
         listView = dialog.findViewById(R.id.lv_stations);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, locationList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, stationsList);
 
         listView.setAdapter(arrayAdapter);
 
@@ -43,11 +45,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         sch_station.setIconifiedByDefault(false);
         sch_station.setOnQueryTextListener(this);
         sch_station.setSubmitButtonEnabled(true);
-        sch_station.setQueryHint("Search Here");
 
         listView.setTextFilterEnabled(true);
-
-
     }
 
     @Override
