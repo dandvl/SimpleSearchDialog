@@ -4,21 +4,20 @@ import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
+    private Filter filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,31 +34,31 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         List<String> stationsList =  Arrays.asList(getResources().getStringArray(R.array.stations));
 
         listView = dialog.findViewById(R.id.lv_stations);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, stationsList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,android.R.id.text1,  stationsList);
 
         listView.setAdapter(arrayAdapter);
 
         SearchView sch_station = dialog.findViewById(R.id.sch_station);
         sch_station.setIconifiedByDefault(false);
-        sch_station.setOnQueryTextListener(this);
         sch_station.setSubmitButtonEnabled(true);
         sch_station.setSuggestionsAdapter(null);
+        filter = arrayAdapter.getFilter();
+        sch_station.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-        listView.setTextFilterEnabled(true);
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter.filter(newText);
+                return true;
+            }
+        });
+        listView.setTextFilterEnabled(false);
+
+
+
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        if (TextUtils.isEmpty(newText)) {
-            listView.setFilterText("");
-        } else {
-            listView.setFilterText(newText);
-        }
-        return true;
-    }
 }
