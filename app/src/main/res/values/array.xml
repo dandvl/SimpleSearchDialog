@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="stations">
+        <item>CLT</item>
+        <item>DCA</item>
+        <item>DWF</item>
+        <item>MIA</item>
+        <item>PHX</item>
+        <item>STL</item>
+    </string-array>
+</resources>
